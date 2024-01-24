@@ -1,72 +1,108 @@
-let scorePC = 0, scorePlayer = 0;
+const container = document.querySelector('.container')
 
-function computerChoice() {
-    const nrRandom = Math.floor(Math.random() * 3);
+const chosen = document.querySelector('.chosen')
+const select = document.querySelectorAll('.select')
 
-    if(nrRandom == 0) return "✊ Rock"
-    if(nrRandom == 1) return "✋ Paper"
-    if(nrRandom == 2) return "✌️ Scissors"
+const result = document.querySelector('.result')
+const yourText = document.querySelector('.yourScore')
+const compText = document.querySelector('.compScore')
+
+var val = 0;
+var compScore = 0;
+var yourScore = 0;
+
+function computerChoice(){
+    val= Math.floor(Math.random() * 3)
+    console.log(val);
+    if(val==0){
+        container.setAttribute('style' , 'background-image: url(resources/rock.jpg); ')
+    } else if(val==1){
+        container.setAttribute('style' , 'background-image: url(resources/paper.avif);')
     }
+    else container.setAttribute('style' , 'background-image: url(resources/Scissors.png);')
 
-function inputPlayer() {
-    const alegere = prompt("Choose Rock Paper or Scissors (written with small letters only) :");
-    let nrAlegere;
-    if(alegere=="rock") nrAlegere=0
-    if(alegere=="paper") nrAlegere=1
-    if(alegere=="scissors") nrAlegere=2
-    return nrAlegere;
 }
 
-function joc() {
-    let decComputer = computerChoice();
-    let inPlay = inputPlayer();
-
-    console.log("The computer chose : " + decComputer);
-
-    if(inPlay==0){
-        if(decComputer== "✊ Rock"){
-            console.log("Tie");
-        } 
-        else if(decComputer== "✌️ Scissors"){
-            console.log("You Won")
-            scorePlayer++
+function chooseWinner(val, choice){
+    if(choice==0) {
+        if(val==0)
+        {
+            result.textContent="Result: Tie"
+            yourText.textContent = 'Your Score: ' + yourScore;
+            compText.textContent = 'Computer Score: ' + compScore;
         }
-             
-        else if (decComputer=="✋ Paper"){
-            console.log("You lost")
-            scorePC++;
-        } 
+        else if(val==2)
+        {
+            yourScore++
+            result.textContent="Result: Win"
+            yourText.textContent = 'Your Score: ' + yourScore;
+            compText.textContent = 'Computer Score: ' + compScore;
+        }
+        else 
+        {
+            compScore++
+            result.textContent="Result: Lose"
+            yourText.textContent = 'Your Score: ' + yourScore;
+            compText.textContent = 'Computer Score: ' + compScore;
+        }
     }
-    else if(inPlay==1) {
-        if(decComputer== "✋ Paper"){
-            console.log("Tie");
-        } 
-        else if(decComputer== "✊ Rock"){
-            console.log("You Won")
-            scorePlayer++;
-        } 
-        else if(decComputer=="✌️ Scissors"){
-            console.log("You lost")
-            scorePC++;
-        } 
-    }
-    else {
-        if(decComputer== "✌️ Scissors") console.log("Tie");
-        else if(decComputer== "✋ Paper") {
-            console.log("You Won")
-            scorePlayer++;
-        } 
-        else if(decComputer=="✊ Rock"){
-            console.log("You lost")
-            scorePC++
-        } 
-    }
+    else if(choice==1) {
+        if(val==1){
+            result.textContent="Result: Tie"
+            yourText.textContent = 'Your Score: ' + yourScore;
+            compText.textContent = 'Computer Score: ' + compScore;
+        }
+        else if(val==0)
+        {
+            yourScore++;
+            result.textContent="Result: Win"
+            yourText.textContent = 'Your Score: ' + yourScore;
+            compText.textContent = 'Computer Score: ' + compScore;
+        }
+        else 
+        {
+            compScore++
+            result.textContent="Result: Lose"
+            yourText.textContent = 'Your Score: ' + yourScore;
+            compText.textContent = 'Computer Score: ' + compScore;
+        }
 
-    console.log("Your score: " + scorePlayer);
-    console.log("Computer score: " + scorePC);
+    }else if(choice==2) {
+        if(val==2){
+            result.textContent="Result: Tie"
+            yourText.textContent = 'Your Score: ' + yourScore;
+            compText.textContent = 'Computer Score: ' + compScore;
+        }
+        else if(val==1){
+        yourScore++
+        result.textContent="Result: Win"
+        yourText.textContent = 'Your Score: ' + yourScore;
+        compText.textContent = 'Computer Score: ' + compScore;
+        }
+        else {
+            compScore++
+            result.textContent="Result: Lose"
+            yourText.textContent = 'Your Score: ' + yourScore;
+            compText.textContent = 'Computer Score: ' + compScore;
+        }
+    }
+}
+
+function playing(choice) {
+    computerChoice();
+    if(choice==0){
+        chosen.setAttribute('style' , 'background-image: url(resources/rock.jpg); ')
+    } else if(choice==1){
+        chosen.setAttribute('style' , 'background-image: url(resources/paper.avif);')
+    }
+    else chosen.setAttribute('style' , 'background-image: url(resources/Scissors.png);')
+
+    chooseWinner(val, choice)
 }
 
 
-for(i=1;i<=5;i++){
-    joc();
-}
+select.forEach((item) => item.addEventListener("click" ,() => {
+    playing(item.id);
+    console.log(item.id)
+})
+)
